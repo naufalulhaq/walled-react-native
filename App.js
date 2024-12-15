@@ -18,6 +18,8 @@ import TransactionList from "./component/TransactionList";
 import Home from "./Home";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
+import TopUpPage from "./TopUpPage";
+import TransferPage from "./TransferPage";
 
 const img = require("./assets/adaptive-icon.png");
 const bgImg = require("./assets/favicon.png");
@@ -28,8 +30,10 @@ export default function App() {
     <SafeAreaProvider>
       <SafeAreaView>
         {/* <Home></Home> */}
-        <LoginPage></LoginPage>
+        {/* <LoginPage></LoginPage> */}
         {/* <RegisterPage></RegisterPage> */}
+        {/* <TopUpPage></TopUpPage> */}
+        <TransferPage></TransferPage>
       </SafeAreaView>
     </SafeAreaProvider>
   );
