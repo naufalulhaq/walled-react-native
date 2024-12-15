@@ -1,10 +1,12 @@
-import React from "react";
-import { View, Text } from "react-native";
+import { React, useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 function Control() {
+  const [showBalance, setShowBalance] = useState(false);
+
   return (
     <View
       style={{
@@ -13,9 +15,8 @@ function Control() {
         justifyContent: "space-between",
         width: "100%",
         gap: 15,
-        paddingHorizontal: 30,
-        paddingBottom: 30,
-        // backgroundColor: "red"
+        paddingHorizontal: 24,
+        paddingBottom: 24,
       }}
     >
       <View
@@ -33,6 +34,7 @@ function Control() {
           100899
         </Text>
       </View>
+      {/* Balance and button section */}
       <View
         style={{
           width: "100%",
@@ -48,9 +50,11 @@ function Control() {
           <Text style={{ color: "black", fontSize: 20 }}>Balance</Text>
           <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
             <Text style={{ color: "black", fontSize: 32, fontWeight: 700 }}>
-              Rp 10.000.000
+              {showBalance ? `Rp 10.000.000` : "Rp *******"}
             </Text>
-            <Feather name="eye" size={24} color="black" />
+            <TouchableOpacity onPress={() => setShowBalance(!showBalance)}>
+            {showBalance ? <Feather name="eye" size={24} color="#A3A0A0" /> : <Feather name="eye-off" size={24} color="#A3A0A0" />}
+            </TouchableOpacity>
           </View>
         </View>
         <View

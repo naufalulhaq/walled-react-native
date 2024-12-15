@@ -11,6 +11,8 @@ import {
 } from "react-native";
 
 function Hero() {
+  // const [showBalance, setShowBalance] = useState(false);
+
   return (
     <View
       style={{
@@ -18,10 +20,8 @@ function Hero() {
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
-        // gap: 15,
-        paddingHorizontal: 30,
-        paddingBottom: 30,
-        // backgroundColor: "red"
+        paddingHorizontal: 24,
+        paddingVertical: 24,
       }}
     >
       <View style={{ width: 240, flexDirection: "col" }}>

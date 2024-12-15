@@ -13,9 +13,8 @@ function TransactionList() {
         justifyContent: "space-between",
         width: "100%",
         gap: 15,
-        paddingHorizontal: 30,
-        paddingBottom: 30,
-        // backgroundColor: "red"
+        paddingHorizontal: 24,
+        paddingBottom: 24,
       }}
     >
       <View
