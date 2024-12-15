@@ -1,40 +1,44 @@
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import {
-  StyleSheet,
-  Dimensions,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  ScrollView,
-  Button,
-  // SafeAreaView,
-} from "react-native";
-
-import Hero from "./component/Hero";
-import Control from "./component/Control";
-import Profile from "./component/Profile";
-import TransactionList from "./component/TransactionList";
 import Home from "./Home";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import TopUpPage from "./TopUpPage";
 import TransferPage from "./TransferPage";
 
-const img = require("./assets/adaptive-icon.png");
-const bgImg = require("./assets/favicon.png");
-const { height: screenHeight } = Dimensions.get("window");
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView>
-        {/* <Home></Home> */}
-        {/* <LoginPage></LoginPage> */}
-        {/* <RegisterPage></RegisterPage> */}
-        {/* <TopUpPage></TopUpPage> */}
-        <TransferPage></TransferPage>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TopUp"
+          component={TopUpPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Transfer"
+          component={TransferPage}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

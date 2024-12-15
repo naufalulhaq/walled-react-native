@@ -11,6 +11,7 @@ import {
   Button,
   // SafeAreaView,
 } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import Hero from "./component/Hero";
 import Control from "./component/Control";
@@ -19,14 +20,18 @@ import TransactionList from "./component/TransactionList";
 
 const { height: screenHeight } = Dimensions.get("window");
 
-function Home() {
+function Home({ route, navigation }) {
   return (
-    <View style={styles.container}>
-      <Profile></Profile>
-      <Hero></Hero>
-      <Control></Control>
-      <TransactionList></TransactionList>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView>
+        <View style={styles.container}>
+          <Profile></Profile>
+          <Hero></Hero>
+          <Control></Control>
+          <TransactionList></TransactionList>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

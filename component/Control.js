@@ -4,8 +4,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-function Control() {
+import { useNavigation } from '@react-navigation/native';
+
+function Control({ }) {
   const [showBalance, setShowBalance] = useState(false);
+  const navigation = useNavigation();
 
   return (
     <View
@@ -64,26 +67,28 @@ function Control() {
             gap: 8,
           }}
         >
-          <View
+          <TouchableOpacity
             style={{
               backgroundColor: "#19918F",
               alignItems: "center",
               padding: 8,
               borderRadius: 8,
             }}
+            onPress={() => navigation.navigate("TopUp")}
           >
             <AntDesign name="plus" size={24} color="white" />
-          </View>
-          <View
+          </TouchableOpacity>
+          <TouchableOpacity
             style={{
               backgroundColor: "#19918F",
               alignItems: "center",
               padding: 8,
               borderRadius: 8,
             }}
+            onPress={() => navigation.navigate("Transfer")}
           >
             <Feather name="send" size={24} color="white" />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
