@@ -6,7 +6,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Hero from "./component/Hero";
 import Control from "./component/Control";
 import Profile from "./component/Profile";
-import TransactionList from "./component/TransactionList2";
+import TransactionList from "./component/TransactionList";
 
 const { height: screenHeight } = Dimensions.get("window");
 
@@ -14,14 +14,14 @@ function Home({}) {
   return (
     <SafeAreaProvider>
       <SafeAreaView>
-        <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.container}>
           <Profile></Profile>
           <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            <Hero/>
-            <Control/>
-            <TransactionList/>
+            <Hero />
+            <Control />
+            <TransactionList />
           </ScrollView>
-        </ScrollView>
+        </View>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -29,15 +29,13 @@ function Home({}) {
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
-    marginBottom: 16,
-    backgroundColor: "red"
+    
   },
   container: {
     flexDirection: "column",
-    minHeight: screenHeight,
+    height: screenHeight,
     justifyContent: "flex-start",
     backgroundColor: "#FAFBFD",
-    paddingBottom: 16
   },
 });
 
