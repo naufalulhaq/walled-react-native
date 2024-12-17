@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
+  Modal,
+  Button,
 } from "react-native";
-// import { useNavigation } from "@react-navigation/native";
+import { Check } from "lucide-react-native";
+import ModalComp from "./ModalComp";
 
 function Form({ state, navigation }) {
+  const [checkTNC, setCheckTNC] = useState(false);
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [errors, setErrors] = useState({});
-
-  // const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const validateFullname = (text) => {
     if (state === "register" && text.length <= 3) {
@@ -123,6 +126,22 @@ function Form({ state, navigation }) {
           />
         </View>
       )}
+      {state === "register" && (
+        <View style={styles.checkboxContainer}>
+          <TouchableOpacity
+            style={styles.checkbox}
+            onPress={() => setCheckTNC(!checkTNC)}
+          >
+            {checkTNC && <Check size={24} color={"black"} />}
+          </TouchableOpacity>
+          <Text style={styles.linkText}>
+            I have read and agree to the{" "}
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <Text style={styles.link}>Terms and Conditions</Text>
+            </TouchableOpacity>
+          </Text>
+        </View>
+      )}
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>
           {state === "register" ? "Register" : "Login"}
@@ -140,6 +159,10 @@ function Form({ state, navigation }) {
           </Text>
         </TouchableOpacity>
       </Text>
+      <ModalComp
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </View>
   );
 }
@@ -169,6 +192,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 4,
   },
+  checkboxContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    gap: 12,
+  },
+  checkbox: {
+    width: 32,
+    height: 32,
+    backgroundColor: "#FAFBFD",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   button: {
     backgroundColor: "#19918F",
     height: 48,
@@ -177,6 +214,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     marginTop: 32,
+    marginBottom: 16,
   },
   buttonText: {
     color: "white",
@@ -185,11 +223,11 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 16,
-    marginTop: 16,
     textAlign: "left",
   },
   link: {
     color: "#19918F",
+    fontSize: 16,
     fontWeight: "600",
   },
 });

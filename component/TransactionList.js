@@ -1,10 +1,8 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import Feather from "@expo/vector-icons/Feather";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import { View, Text, Image, ScrollView } from "react-native";
+import TransactionItem from "./TransactionItem";
 
-function TransactionList() {
+function TransactionList({ data }) {
   return (
     <View
       style={{
@@ -42,104 +40,14 @@ function TransactionList() {
           <View
             style={{ width: "100%", height: 1, backgroundColor: "#E5E5E5" }}
           ></View>
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "space-between",
-              gap: 20,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                <Image
-                  source={require("../assets/profile.png")}
-                  style={{
-                    width: 46,
-                    height: 46,
-                    borderRadius: 23,
-                  }}
-                ></Image>
-                <View style={{ flexDirection: "column" }}>
-                  <Text style={{ fontSize: 20 }}>Adityo Gizwanda</Text>
-                  <Text style={{ fontSize: 16 }}>Topup</Text>
-                  <Text style={{ fontSize: 16, color: "#939393" }}>
-                    08 Desember 2024
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <Text style={{ fontSize: 20, color: "#2DC071" }}>
-                  + 75.000,00
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                <Image
-                  source={require("../assets/profile.png")}
-                  style={{
-                    width: 46,
-                    height: 46,
-                    borderRadius: 23,
-                  }}
-                ></Image>
-                <View style={{ flexDirection: "column" }}>
-                  <Text style={{ fontSize: 20 }}>Adityo Gizwanda</Text>
-                  <Text style={{ fontSize: 16 }}>Topup</Text>
-                  <Text style={{ fontSize: 16, color: "#939393" }}>
-                    08 Desember 2024
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <Text style={{ fontSize: 20, color: "#2DC071" }}>
-                  + 75.000,00
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-                <Image
-                  source={require("../assets/profile.png")}
-                  style={{
-                    width: 46,
-                    height: 46,
-                    borderRadius: 23,
-                  }}
-                ></Image>
-                <View style={{ flexDirection: "column" }}>
-                  <Text style={{ fontSize: 20 }}>Adityo Gizwanda</Text>
-                  <Text style={{ fontSize: 16 }}>Topup</Text>
-                  <Text style={{ fontSize: 16, color: "#939393" }}>
-                    08 Desember 2024
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <Text style={{ fontSize: 20, color: "#2DC071" }}>
-                  + 75.000,00
-                </Text>
-              </View>
-            </View>
-          </View>
+          <ScrollView contentContainerStyle={{justifyContent: "space-between", gap: 20}}>
+            <TransactionItem/>
+            <TransactionItem/>
+            <TransactionItem/>
+            <TransactionItem/>
+            <TransactionItem/>
+            <TransactionItem/>
+          </ScrollView>
         </View>
       </View>
     </View>

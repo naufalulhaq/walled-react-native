@@ -1,47 +1,43 @@
 import React from "react";
 
-import {
-  StyleSheet,
-  Dimensions,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  ScrollView,
-  Button,
-  // SafeAreaView,
-} from "react-native";
+import { StyleSheet, Dimensions, View, ScrollView } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import Hero from "./component/Hero";
 import Control from "./component/Control";
 import Profile from "./component/Profile";
-import TransactionList from "./component/TransactionList";
+import TransactionList from "./component/TransactionList2";
 
 const { height: screenHeight } = Dimensions.get("window");
 
-function Home({ route, navigation }) {
+function Home({}) {
   return (
     <SafeAreaProvider>
       <SafeAreaView>
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <Profile></Profile>
-          <Hero></Hero>
-          <Control></Control>
-          <TransactionList></TransactionList>
-        </View>
+          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+            <Hero/>
+            <Control/>
+            <TransactionList/>
+          </ScrollView>
+        </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollViewContainer: {
+    marginBottom: 16,
+    backgroundColor: "red"
+  },
   container: {
     flexDirection: "column",
     minHeight: screenHeight,
     justifyContent: "flex-start",
     backgroundColor: "#FAFBFD",
-    // backgroundColor: "red"
+    paddingBottom: 16
   },
 });
 
