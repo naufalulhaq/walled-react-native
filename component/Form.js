@@ -5,17 +5,18 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Modal,
-  Button,
+  Alert,
 } from "react-native";
 import { Check } from "lucide-react-native";
 import ModalComp from "./ModalComp";
+import { register } from "../api/restApi";
 
 function Form({ state, navigation }) {
   const [checkTNC, setCheckTNC] = useState(false);
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [errors, setErrors] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,23 +52,54 @@ function Form({ state, navigation }) {
     }
   };
 
-  const handleSubmit = () => {
+  // Submit Handlers
+  const registerHandler = async () => {
+    const data = {};
     const isValid = Object.values(errors).every((error) => error === "");
-    if (isValid) {
-      if (state === "register") {
-        console.log("Register with", { fullname, email, password, avatarUrl });
-        navigation.navigate("Home");
-      } else {
-        console.log("Login with", { email, password });
-        navigation.navigate("Home");
-      }
+    if (!isValid || !checkTNC) {
+      Alert.alert("Error", "Please fix the errors and agree to the Terms.");
+      return;
+    }
+
+    if (fullname) data.full_name = fullname;
+    if (email) data.email = email;
+    if (password) data.password = password;
+    if (phoneNumber) data.phone_number = phoneNumber;
+    if (avatarUrl) data.avatar_url = avatarUrl;
+
+    try {
+      console.log("try register function");
+      await register(data);
+      Alert.alert("Registration Succed");
+      // setSuccessModalVisible(true);
+    } catch (error) {
+      console.log(error)
+      Alert.alert("Registration Failed", error.message || "An error occurred.");
+    }
+  };
+
+  const loginHandler = () => {
+    const isValid = Object.values(errors).every((error) => error === "");
+    if (!isValid) {
+      Alert.alert("Error", "Please fix the errors before logging in.");
+      return;
+    }
+
+    console.log("Login with", { email, password });
+    navigation.navigate("Home");
+  };
+
+  const handleSubmit = () => {
+    if (state === "register") {
+      registerHandler();
     } else {
-      console.log("Form contains errors:", errors);
+      loginHandler();
     }
   };
 
   return (
     <View style={styles.container}>
+      {/* fullname */}
       {state === "register" && (
         <View style={styles.inputContainer}>
           <TextInput
@@ -85,6 +117,7 @@ function Form({ state, navigation }) {
           )}
         </View>
       )}
+      {/* email */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -99,6 +132,7 @@ function Form({ state, navigation }) {
         />
         {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
       </View>
+      {/* password */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -115,6 +149,20 @@ function Form({ state, navigation }) {
           <Text style={styles.errorText}>{errors.password}</Text>
         )}
       </View>
+      {/* phoneNumber */}
+      {state === "register" && (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Phone Number"
+            value={phoneNumber}
+            inputMode="numeric"
+            onChangeText={(text) => setPhoneNumber(text)}
+            accessibilityLabel="Phone Number Input"
+          />
+        </View>
+      )}
+      {/* avatar url */}
       {state === "register" && (
         <View style={styles.inputContainer}>
           <TextInput

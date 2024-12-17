@@ -16,7 +16,7 @@ function Home({}) {
       <SafeAreaView>
         <View style={styles.container}>
           <Profile></Profile>
-          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+          <ScrollView contentContainerStyle={styles.scrollViewContainer} showsVerticalScrollIndicator={false}>
             <Hero />
             <Control />
             <TransactionList />
@@ -28,14 +28,13 @@ function Home({}) {
 }
 
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    
-  },
+  scrollViewContainer: {},
   container: {
     flexDirection: "column",
     height: screenHeight,
     justifyContent: "flex-start",
     backgroundColor: "#FAFBFD",
+    paddingBottom: 56
   },
 });
 

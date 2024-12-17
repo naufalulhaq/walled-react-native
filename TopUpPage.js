@@ -12,7 +12,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const { height: screenHeight } = Dimensions.get("window");
 
@@ -146,6 +146,7 @@ function TopUpPage() {
                   backgroundColor: "#19918F",
                   height: 48,
                   borderRadius: 8,
+                  marginBottom: 52,
                 }}
               >
                 <Text
