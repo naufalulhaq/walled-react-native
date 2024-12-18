@@ -14,10 +14,21 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import { useNavigation } from "@react-navigation/native";
 
+import { Dropdown } from "react-native-element-dropdown";
+
 const { height: screenHeight } = Dimensions.get("window");
 
 function TopUpPage() {
   const navigation = useNavigation();
+  const [value, setValue] = useState(null);
+
+  const dropDownData = [
+    { label: "BYOND Pay", value: "BYOND Pay" },
+    { label: "Hasanah Card", value: "Hasanah Card" },
+    { label: "QRIS", value: "QRIS" },
+    { label: "DEBIT", value: "DEBIT" },
+  ];
+
   return (
     <SafeAreaProvider>
       <SafeAreaView>
@@ -101,7 +112,20 @@ function TopUpPage() {
                   paddingVertical: 24,
                 }}
               >
-                <Text style={{ fontSize: 24, color: "black" }}>BYOND Pay</Text>
+                <Dropdown
+                  style={styles.dropDown}
+                  placeholder="Select Payment"
+                  data={dropDownData}
+                  labelField="label"
+                  valueField="value"
+                  value={value}
+                  onChange={(item) => setValue(item.value)}
+                  renderItem={(item) => (
+                    <View style={{padding: 16}}>
+                      <Text style={styles.textItem}>{item.label}</Text>
+                    </View>
+                  )}
+                />
               </View>
               {/* input notes */}
               <View

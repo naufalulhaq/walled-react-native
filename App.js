@@ -7,14 +7,15 @@ import TransferPage from "./TransferPage";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // Bottom Tabs Component
-function TabNavigator() {
+function MainTab() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -57,41 +58,42 @@ function TabNavigator() {
   );
 }
 
-export default function App() {
+function StackNavigator() {
+  const { isLoggedIn } = useAuth();
+  console.log(isLoggedIn);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="TabNavigator"
-          component={TabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginPage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={RegisterPage}
-          options={{ headerShown: false }}
-        />
-        {/* <Stack.Screen
-          name="TopUp"
-          component={TopUpPage}
-          options={{ headerShown: false }}
-        /> */}
-        {/* <Stack.Screen
-          name="Transfer"
-          component={TransferPage}
-          options={{ headerShown: false }}
-        /> */}
-        {/* <Stack.Screen
-        name="TabNavigator"
-        component={TabNavigator}
-        options={{ headerShown: false }}
-      /> */}
+      <Stack.Navigator>
+        {isLoggedIn ? (
+          <Stack.Screen
+            name="MainTab"
+            component={MainTab}
+            options={{ headerShown: false }}
+          />
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={LoginPage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegisterPage}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <StackNavigator />
+    </AuthProvider>
   );
 }

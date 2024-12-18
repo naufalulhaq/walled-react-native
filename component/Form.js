@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { Check } from "lucide-react-native";
 import ModalComp from "./ModalComp";
-import { register } from "../api/restApi";
+import { login, register } from "../api/restApi";
+import { useAuth } from "../context/AuthContext";
 
 function Form({ state, navigation }) {
   const [checkTNC, setCheckTNC] = useState(false);
@@ -20,6 +21,7 @@ function Form({ state, navigation }) {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [errors, setErrors] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+  const { login: setLoginState } = useAuth();
 
   const validateFullname = (text) => {
     if (state === "register" && text.length <= 3) {
@@ -68,25 +70,28 @@ function Form({ state, navigation }) {
     if (avatarUrl) data.avatar_url = avatarUrl;
 
     try {
-      console.log("try register function");
       await register(data);
       Alert.alert("Registration Succed");
-      // setSuccessModalVisible(true);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       Alert.alert("Registration Failed", error.message || "An error occurred.");
     }
   };
 
-  const loginHandler = () => {
+  const loginHandler = async () => {
     const isValid = Object.values(errors).every((error) => error === "");
     if (!isValid) {
       Alert.alert("Error", "Please fix the errors before logging in.");
       return;
     }
 
-    console.log("Login with", { email, password });
-    navigation.navigate("Home");
+    try {
+      const { token } = await login(email, password);
+      setLoginState(token);
+      Alert.alert("Succes", "Login Succesful");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSubmit = () => {

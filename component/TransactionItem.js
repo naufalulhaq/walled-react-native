@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 
-function TransactionItem({name, category, date, amount}) {
+function TransactionItem({from_to, type, created_at, amount}) {
   return (
     <View
       style={{
@@ -27,15 +27,15 @@ function TransactionItem({name, category, date, amount}) {
           }}
         ></Image>
         <View style={{ flexDirection: "column" }}>
-          <Text style={{ fontSize: 20 }}>Adityo Gizwanda</Text>
-          <Text style={{ fontSize: 16 }}>Topup</Text>
+          <Text style={{ fontSize: 20 }}>{from_to}</Text>
+          <Text style={{ fontSize: 16 }}>{type === "c" ? "Transfer" : "Topup"}</Text>
           <Text style={{ fontSize: 16, color: "#939393" }}>
-            08 Desember 2024
+            {new Date(created_at).toLocaleString()}
           </Text>
         </View>
       </View>
       <View>
-        <Text style={{ fontSize: 20, color: "#2DC071" }}>+ 75.000,00</Text>
+        <Text style={{ fontSize: 20, color: "#2DC071" }}>{amount}</Text>
       </View>
     </View>
   );

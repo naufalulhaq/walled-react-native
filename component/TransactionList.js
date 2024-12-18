@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import TransactionItem from "./TransactionItem";
+import { useAuth } from "../context/AuthContext";
+import { getTransaction } from "../api/restApi";
 
-function TransactionList({ data }) {
+function TransactionList() {
+  const { userData } = useAuth();
+  const [transactions, setTransactions] = useState();
+
+  const fetchTransaction = async () => {
+    try {
+      const response = await getTransaction();
+      console.log(response);
+      setTransactions(response);
+    } catch (error) {
+      console.log("error fetchTransaction", error);
+      throw new Error("Failed to fetch data: " + error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransaction();
+  }, [userData]);
+
   return (
     <View style={styles.container}>
       {/* Header Section */}
@@ -15,20 +35,13 @@ function TransactionList({ data }) {
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          <TransactionItem></TransactionItem>
-          <TransactionItem></TransactionItem>
-          <TransactionItem></TransactionItem>
-          <TransactionItem></TransactionItem>
-          <TransactionItem></TransactionItem>
-          <TransactionItem></TransactionItem>
-          <TransactionItem></TransactionItem>
-          <TransactionItem></TransactionItem>
-          <TransactionItem></TransactionItem>
-          {/* {data && data.length > 0 ? (
-          data.map((item, index) => <TransactionItem key={index} {...item} />)
+          {/* <TransactionItem></TransactionItem>
+          <TransactionItem></TransactionItem> */}
+          {transactions && transactions.length > 0 ? (
+          transactions.map((transaction, index) => <TransactionItem key={index} {...transaction} />)
         ) : (
           <Text style={styles.noDataText}>No transactions available</Text>
-        )} */}
+        )}
         </ScrollView>
       </View>
     </View>

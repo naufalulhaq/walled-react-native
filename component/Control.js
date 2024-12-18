@@ -1,14 +1,15 @@
 import { React, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from "../context/AuthContext";
 
 function Control({ }) {
   const [showBalance, setShowBalance] = useState(false);
   const navigation = useNavigation();
+  const {userData} = useAuth()
 
   return (
     <View
@@ -34,7 +35,7 @@ function Control({ }) {
       >
         <Text style={{ color: "white", fontSize: 20 }}>Account No.</Text>
         <Text style={{ color: "white", fontSize: 20, fontWeight: 700 }}>
-          100899
+          {userData.account_no}
         </Text>
       </View>
       {/* Balance and button section */}
@@ -53,7 +54,7 @@ function Control({ }) {
           <Text style={{ color: "black", fontSize: 20 }}>Balance</Text>
           <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
             <Text style={{ color: "black", fontSize: 32, fontWeight: 700 }}>
-              {showBalance ? `Rp 10.000.000` : "Rp *******"}
+              Rp {showBalance ? Intl.NumberFormat('en-ID').format(userData.balance) : "*******"}
             </Text>
             <TouchableOpacity onPress={() => setShowBalance(!showBalance)}>
             {showBalance ? <Feather name="eye" size={24} color="#A3A0A0" /> : <Feather name="eye-off" size={24} color="#A3A0A0" />}
