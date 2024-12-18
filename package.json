@@ -23,7 +23,8 @@
     "react-native-element-dropdown": "^2.12.2",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.3.0",
-    "react-native-shadow-2": "^7.1.1"
+    "react-native-shadow-2": "^7.1.1",
+    "expo-build-properties": "~0.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

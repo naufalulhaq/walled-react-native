@@ -6,17 +6,43 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "./context/AuthContext";
+import { createTransaction } from "./api/restApi";
 
 const { height: screenHeight } = Dimensions.get("window");
 
 function TransferPage() {
   const navigation = useNavigation();
+  const { userData } = useAuth();
+  const [destination, setDestination] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [notes, setNotes] = useState("");
+  const { fetchUser } = useAuth();
+
+  const transferHandle = async () => {
+    const data = {
+      type: "d",
+    };
+
+    if (destination) data.from_to = destination;
+    if (amount) data.amount = amount;
+    if (notes) data.description = notes;
+    try {
+      const response = await createTransaction(data);
+      console.log("ini transaction handler: ", response);
+      fetchUser();
+      Alert.alert("Succes", "Transfer Succesful");
+    } catch (error) {
+      console.log("error createTransaction", error);
+      throw new Error("Failed to transfer: " + error || "An error occurred.");
+    }
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView>
@@ -75,9 +101,13 @@ function TransferPage() {
                 <Text style={{ color: "white", fontSize: 24 }}>To:</Text>
                 <TextInput
                   style={{ color: "white", fontSize: 24, flex: 1 }}
-                  placeholder="9000008940208"
+                  placeholder="--"
                   placeholderTextColor="white"
-                ></TextInput>
+                  value={destination}
+                  inputMode="numeric"
+                  onChangeText={(text) => setDestination(text)}
+                  accessibilityLabel="Transfer Destination Input"
+                />
               </View>
               {/* input amount */}
               <View
@@ -98,8 +128,12 @@ function TransferPage() {
                       paddingHorizontal: 16,
                       color: "black",
                     }}
-                    placeholder="100.000"
-                  ></TextInput>
+                    placeholder="0"
+                    value={amount}
+                    inputMode="numeric"
+                    onChangeText={(text) => setAmount(text)}
+                    accessibilityLabel="Transfer Amount Input"
+                  />
                 </View>
                 <View
                   style={{
@@ -118,7 +152,7 @@ function TransferPage() {
                     Balance
                   </Text>
                   <Text style={{ color: "#19918F", fontSize: 16 }}>
-                    IDR 10.000.000
+                    IDR {userData.balance}
                   </Text>
                 </View>
               </View>
@@ -142,7 +176,10 @@ function TransferPage() {
                       color: "black",
                     }}
                     placeholder=""
-                  ></TextInput>
+                    value={notes}
+                    onChangeText={(text) => setNotes(text)}
+                    accessibilityLabel="Transfer Notes Input"
+                  />
                 </View>
                 <View
                   style={{
@@ -167,6 +204,7 @@ function TransferPage() {
                   borderRadius: 8,
                   marginBottom: 52,
                 }}
+                onPress={transferHandle}
               >
                 <Text
                   style={{

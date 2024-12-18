@@ -6,21 +6,21 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
-
 import Ionicons from "@expo/vector-icons/Ionicons";
-
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-
 import { useNavigation } from "@react-navigation/native";
-
 import { Dropdown } from "react-native-element-dropdown";
+import { createTransaction } from "./api/restApi";
 
 const { height: screenHeight } = Dimensions.get("window");
 
 function TopUpPage() {
   const navigation = useNavigation();
-  const [value, setValue] = useState(null);
+  const [payment, setPayment] = useState(null);
+  const [amount, setAmount] = useState(0);
+  const [notes, setNotes] = useState("");
 
   const dropDownData = [
     { label: "BYOND Pay", value: "BYOND Pay" },
@@ -28,6 +28,27 @@ function TopUpPage() {
     { label: "QRIS", value: "QRIS" },
     { label: "DEBIT", value: "DEBIT" },
   ];
+
+  const topupHandler = async () => {
+    console.log("ini udah di handler topup")
+    const data = {
+      type: "c",
+    };
+
+    if (payment) data.from_to = payment;
+    if (amount) data.amount = amount;
+    if (notes) data.description = notes;
+    try {
+      const response = await createTransaction(data);
+      console.log("ini topup handler: ", response);
+      fetchUser();
+      Alert.alert("Succes", "Topup Succesful");
+    } catch (error) {
+      console.log("ini error topup handler")
+      console.log("error createTransaction", error);
+      throw new Error("Failed to topup: " + error || "An error occurred.");
+    }
+  };
 
   return (
     <SafeAreaProvider>
@@ -91,8 +112,12 @@ function TopUpPage() {
                       paddingHorizontal: 16,
                       color: "black",
                     }}
-                    placeholder="100.000"
-                  ></TextInput>
+                    placeholder="0"
+                    value={amount}
+                    inputMode="numeric"
+                    onChangeText={(text) => setAmount(text)}
+                    accessibilityLabel="Topup Amount Input"
+                  />
                 </View>
                 <View
                   style={{
@@ -118,10 +143,10 @@ function TopUpPage() {
                   data={dropDownData}
                   labelField="label"
                   valueField="value"
-                  value={value}
-                  onChange={(item) => setValue(item.value)}
+                  value={payment}
+                  onChange={(item) => setPayment(item.value)}
                   renderItem={(item) => (
-                    <View style={{padding: 16}}>
+                    <View style={{ padding: 16 }}>
                       <Text style={styles.textItem}>{item.label}</Text>
                     </View>
                   )}
@@ -147,7 +172,10 @@ function TopUpPage() {
                       color: "black",
                     }}
                     placeholder=""
-                  ></TextInput>
+                    value={notes}
+                    onChangeText={(text) => setNotes(text)}
+                    accessibilityLabel="Topup Notes Input"
+                  />
                 </View>
                 <View
                   style={{
@@ -172,6 +200,7 @@ function TopUpPage() {
                   borderRadius: 8,
                   marginBottom: 52,
                 }}
+                onPress={topupHandler}
               >
                 <Text
                   style={{

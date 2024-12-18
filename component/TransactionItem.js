@@ -28,14 +28,14 @@ function TransactionItem({from_to, type, created_at, amount}) {
         ></Image>
         <View style={{ flexDirection: "column" }}>
           <Text style={{ fontSize: 20 }}>{from_to}</Text>
-          <Text style={{ fontSize: 16 }}>{type === "c" ? "Transfer" : "Topup"}</Text>
+          <Text style={{ fontSize: 16 }}>{type === "c" ? "Topup" : "Transfer"}</Text>
           <Text style={{ fontSize: 16, color: "#939393" }}>
             {new Date(created_at).toLocaleString()}
           </Text>
         </View>
       </View>
       <View>
-        <Text style={{ fontSize: 20, color: "#2DC071" }}>{amount}</Text>
+        <Text style={{ fontSize: 20, color: (type === "c" ? "#2DC071" : "red") }}>{amount}</Text>
       </View>
     </View>
   );

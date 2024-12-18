@@ -10,14 +10,15 @@ const api = axios.create({
   },
 });
 
-// export const createPost = async (postData) => {
-//   try {
-//     const response = await api.post('/users', postData);
-//     return response.data;
-//   } catch (error) {
-//     throw new Error('Failed to create post: ' + error.message);
-//   }
-// };
+export const createTransaction = async (data) => {
+  try {
+    const response = await api.post("/transactions", data);
+    // console.log("ini api createtr", response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.errors[0].message || "Transaction failed");
+  }
+};
 
 export const getTransaction = async () => {
   try {
@@ -25,7 +26,7 @@ export const getTransaction = async () => {
     console.log(response.data.data);
     return response.data.data;
   } catch (error) {
-    console.log("error getTransaction", error.response.data.message)
+    console.log("error getTransaction", error.response.data.message);
     throw new Error("Failed to fetch data: " + error.response.data.message);
   }
 };
@@ -36,7 +37,7 @@ export const getUser = async () => {
     console.log(response.data.data);
     return response.data.data;
   } catch (error) {
-    console.log("error getUser", error.response.data.message)
+    console.log("error getUser", error.response.data.message);
     throw new Error("Failed to fetch data: " + error.response.data.message);
   }
 };

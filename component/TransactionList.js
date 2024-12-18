@@ -11,7 +11,7 @@ function TransactionList() {
   const fetchTransaction = async () => {
     try {
       const response = await getTransaction();
-      console.log(response);
+      // console.log("ini fetch transaction di trlist: ", response);
       setTransactions(response);
     } catch (error) {
       console.log("error fetchTransaction", error);
